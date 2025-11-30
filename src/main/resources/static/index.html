@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Analyster</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/styles.css" rel="stylesheet">
+</head>
+<body class="bg-body">
+<div id="app">
+  <nav class="navbar navbar-expand-lg shadow-sm topbar">
+    <div class="container-fluid">
+      <span class="navbar-brand fw-bold text-white">Analyster</span>
+      <div class="d-flex align-items-center gap-3">
+        <span class="text-light small" id="currentProjectLabel">SPA демо</span>
+        <button class="btn btn-outline-light btn-sm" id="logoutBtn">Выйти</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <aside class="col-12 col-md-3 col-lg-2 px-0 sidebar">
+        <div class="d-flex flex-column py-3 gap-2">
+          <button class="btn nav-btn active" data-target="userStoriesView">User Story</button>
+          <button class="btn nav-btn" data-target="requirementsView">Требования</button>
+          <button class="btn nav-btn" data-target="articlesView">Статьи</button>
+          <button class="btn nav-btn" data-target="modelsView">Модели</button>
+        </div>
+      </aside>
+
+      <main class="col-12 col-md-9 col-lg-10 p-4">
+        <div id="userStoriesView" class="view">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h5 class="mb-0">User Stories</h5>
+              <p class="text-muted small mb-0">Список пользовательских историй</p>
+            </div>
+            <button class="btn btn-outline-primary btn-sm" id="refreshUserStoriesBtn">Обновить</button>
+          </div>
+          <div class="card shadow-sm mb-3">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table align-middle">
+                  <thead>
+                  <tr>
+                    <th>Формулировка</th>
+                    <th>Ответственный</th>
+                    <th>Приоритет</th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody id="userStoriesTableBody">
+                  <tr><td colspan="4" class="text-center text-muted">Загрузка...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div id="userStoryDetail" class="card shadow-sm d-none">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h6 class="mb-0" id="userStoryDetailTitle">User Story</h6>
+              <span class="badge bg-primary" id="userStoryPriority"></span>
+            </div>
+            <div class="card-body">
+              <ul class="nav nav-tabs mb-3" id="userStoryTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="us-main-tab" data-bs-toggle="tab" data-bs-target="#us-main"
+                          type="button" role="tab">Основное</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="us-req-tab" data-bs-toggle="tab" data-bs-target="#us-req"
+                          type="button" role="tab">Требования</button>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane fade show active" id="us-main" role="tabpanel">
+                  <div class="mb-3">
+                    <label class="form-label">Формулировка</label>
+                    <p class="form-control-plaintext" id="userStoryStatement"></p>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Ответственный</label>
+                      <p class="form-control-plaintext" id="userStoryOwner"></p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Проект</label>
+                      <p class="form-control-plaintext" id="userStoryProject"></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="us-req" role="tabpanel">
+                  <div class="table-responsive">
+                    <table class="table align-middle">
+                      <thead>
+                      <tr>
+                        <th>Название</th>
+                        <th>Тип</th>
+                        <th>Статус</th>
+                      </tr>
+                      </thead>
+                      <tbody id="userStoryRequirementsTable">
+                      <tr><td colspan="3" class="text-muted text-center">Нет связанных требований</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="requirementsView" class="view d-none">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h5 class="mb-0">Требования</h5>
+              <p class="text-muted small mb-0">Список требований с пагинацией</p>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline-primary btn-sm" id="refreshRequirementsBtn">Обновить</button>
+            </div>
+          </div>
+          <div class="card shadow-sm mb-3">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table align-middle">
+                  <thead>
+                  <tr>
+                    <th>Название</th>
+                    <th>Тип</th>
+                    <th>Статус</th>
+                    <th>Версия</th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody id="requirementsTableBody">
+                  <tr><td colspan="5" class="text-center text-muted">Загрузка...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="text-muted small" id="requirementsCounter"></div>
+                <div class="btn-group">
+                  <button class="btn btn-outline-secondary btn-sm" id="prevPageBtn">Назад</button>
+                  <button class="btn btn-outline-secondary btn-sm" id="nextPageBtn">Вперед</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="requirementDetail" class="card shadow-sm d-none">
+            <div class="card-header">
+              <h6 class="mb-0" id="requirementDetailTitle">Детали требования</h6>
+            </div>
+            <div class="card-body">
+              <ul class="nav nav-tabs mb-3" role="tablist">
+                <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#req-main"
+                                             type="button" role="tab">Данные требования</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#req-trace"
+                                             type="button" role="tab">Трассировка</button></li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane fade show active" id="req-main" role="tabpanel">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Название</label>
+                      <p class="form-control-plaintext" id="reqTitle"></p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Тип</label>
+                      <p class="form-control-plaintext" id="reqType"></p>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Описание</label>
+                    <p class="form-control-plaintext" id="reqDescription"></p>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">User Story</label>
+                      <div id="reqUserStories" class="small"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Статус</label>
+                      <span class="badge bg-info text-dark" id="reqStatus"></span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Источник</label>
+                      <p class="form-control-plaintext" id="reqSource"></p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                      <label class="form-label">Ответственный</label>
+                      <p class="form-control-plaintext" id="reqOwner"></p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                      <label class="form-label">Версия</label>
+                      <span class="badge bg-secondary" id="reqVersion"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="req-trace" role="tabpanel">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h6 class="mb-0">Связанные требования</h6>
+                    <button class="btn btn-primary btn-sm" id="addTraceBtn">Добавить ссылку на требование</button>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table align-middle">
+                      <thead>
+                      <tr>
+                        <th>Название</th>
+                        <th>Тип</th>
+                        <th>Статус</th>
+                      </tr>
+                      </thead>
+                      <tbody id="traceTableBody">
+                      <tr><td colspan="3" class="text-center text-muted">Связей нет</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="articlesView" class="view d-none">
+          <div class="text-muted">Статьи появятся в следующей итерации.</div>
+        </div>
+
+        <div id="modelsView" class="view d-none">
+          <div class="text-muted">Модели появятся в следующей итерации.</div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-card shadow-lg">
+    <h5 class="mb-3 text-center">Вход</h5>
+    <form id="loginForm" class="d-flex flex-column gap-3">
+      <div>
+        <label class="form-label">Имя пользователя</label>
+        <input type="text" class="form-control" id="usernameInput" placeholder="например, demo" required>
+        <div class="form-text">Создастся, если ещё нет (демо, без пароля).</div>
+      </div>
+      <div>
+        <label class="form-label">Отображаемое имя (опционально)</label>
+        <input type="text" class="form-control" id="displayNameInput" placeholder="Demo User">
+      </div>
+      <div class="border-top pt-2">
+        <label class="form-label">Или вставьте готовый JWT</label>
+        <input type="password" class="form-control" id="tokenInput" placeholder="Bearer токен">
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Войти</button>
+    </form>
+  </div>
+</div>
+
+<!-- Requirement detail modal -->
+<div class="modal fade" id="requirementModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="modalRequirementTitle">Требование</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-2"><strong>Тип:</strong> <span id="modalReqType"></span></div>
+        <div class="mb-2"><strong>Статус:</strong> <span id="modalReqStatus" class="badge bg-info text-dark"></span></div>
+        <div class="mb-2"><strong>Описание:</strong></div>
+        <p id="modalReqDescription" class="mb-3"></p>
+        <div class="row">
+          <div class="col-md-6 mb-2"><strong>Источник:</strong> <span id="modalReqSource"></span></div>
+          <div class="col-md-3 mb-2"><strong>Версия:</strong> <span id="modalReqVersion" class="badge bg-secondary"></span></div>
+          <div class="col-md-3 mb-2"><strong>Ответственный:</strong> <span id="modalReqOwner"></span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add trace modal -->
+<div class="modal fade" id="addLinkModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Добавить ссылку на требование</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead>
+            <tr>
+              <th>Название</th>
+              <th>Тип</th>
+              <th>Статус</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody id="addLinkTableBody">
+            <tr><td colspan="4" class="text-center text-muted">Загрузка...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
