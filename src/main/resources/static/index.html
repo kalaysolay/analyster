@@ -13,7 +13,7 @@
     <div class="container-fluid">
       <span class="navbar-brand fw-bold text-white">Analyster</span>
       <div class="d-flex align-items-center gap-3">
-        <span class="text-light small" id="currentProjectLabel">SPA демо</span>
+        <span class="text-light small" id="currentProjectLabel">SPA проект</span>
         <button class="btn btn-outline-light btn-sm" id="logoutBtn">Выйти</button>
       </div>
     </div>
@@ -24,6 +24,7 @@
       <aside class="col-12 col-md-3 col-lg-2 px-0 sidebar">
         <div class="d-flex flex-column py-3 gap-2">
           <button class="btn nav-btn active" data-target="userStoriesView">User Story</button>
+          <button class="btn nav-btn" data-target="projectsView">Проекты</button>
           <button class="btn nav-btn" data-target="requirementsView">Требования</button>
           <button class="btn nav-btn" data-target="articlesView">Статьи</button>
           <button class="btn nav-btn" data-target="modelsView">Модели</button>
@@ -37,7 +38,10 @@
               <h5 class="mb-0">User Stories</h5>
               <p class="text-muted small mb-0">Список пользовательских историй</p>
             </div>
-            <button class="btn btn-outline-primary btn-sm" id="refreshUserStoriesBtn">Обновить</button>
+            <div class="d-flex gap-2">
+              <button class="btn btn-primary btn-sm" id="addUserStoryBtn">Добавить</button>
+              <button class="btn btn-outline-primary btn-sm" id="refreshUserStoriesBtn">Обновить</button>
+            </div>
           </div>
           <div class="card shadow-sm mb-3">
             <div class="card-body">
@@ -46,13 +50,14 @@
                   <thead>
                   <tr>
                     <th>Формулировка</th>
-                    <th>Ответственный</th>
+                    <th>Автор</th>
                     <th>Приоритет</th>
+                    <th>Проект</th>
                     <th></th>
                   </tr>
                   </thead>
                   <tbody id="userStoriesTableBody">
-                  <tr><td colspan="4" class="text-center text-muted">Загрузка...</td></tr>
+                  <tr><td colspan="5" class="text-center text-muted">Загрузка...</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -68,7 +73,7 @@
               <ul class="nav nav-tabs mb-3" id="userStoryTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                   <button class="nav-link active" id="us-main-tab" data-bs-toggle="tab" data-bs-target="#us-main"
-                          type="button" role="tab">Основное</button>
+                          type="button" role="tab">Описание</button>
                 </li>
                 <li class="nav-item" role="presentation">
                   <button class="nav-link" id="us-req-tab" data-bs-toggle="tab" data-bs-target="#us-req"
@@ -83,7 +88,7 @@
                   </div>
                   <div class="row">
                     <div class="col-md-6 mb-3">
-                      <label class="form-label">Ответственный</label>
+                      <label class="form-label">Автор</label>
                       <p class="form-control-plaintext" id="userStoryOwner"></p>
                     </div>
                     <div class="col-md-6 mb-3">
@@ -113,13 +118,79 @@
           </div>
         </div>
 
+        <div id="projectsView" class="view d-none">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h5 class="mb-0">Проекты</h5>
+              <p class="text-muted small mb-0">Создавайте, редактируйте и удаляйте проекты команды.</p>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline-primary btn-sm" id="refreshProjectsBtn">Обновить</button>
+              <button class="btn btn-outline-secondary btn-sm" id="projectCancelEditBtn">Отменить</button>
+            </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-lg-7">
+              <div class="card shadow-sm h-100">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table align-middle">
+                      <thead>
+                      <tr>
+                        <th>Название</th>
+                        <th>Автор</th>
+                        <th>Git URL</th>
+                        <th></th>
+                      </tr>
+                      </thead>
+                      <tbody id="projectsTableBody">
+                      <tr><td colspan="4" class="text-center text-muted">Загрузка...</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-5">
+              <div class="card shadow-sm h-100">
+                <div class="card-body">
+                  <h6 class="mb-3" id="projectFormTitle">Новый проект</h6>
+                  <form id="projectForm" class="d-flex flex-column gap-3">
+                    <div>
+                      <label class="form-label">Название*</label>
+                      <input type="text" class="form-control" id="projectNameInput" placeholder="Internal CRM" required>
+                    </div>
+                    <div>
+                      <label class="form-label">Автор*</label>
+                      <input type="text" class="form-control" id="projectAuthorInput" placeholder="Team Alpha" required>
+                    </div>
+                    <div>
+                      <label class="form-label">Git URL</label>
+                      <input type="url" class="form-control" id="projectGitInput" placeholder="https://github.com/org/repo">
+                    </div>
+                    <div>
+                      <label class="form-label">Описание</label>
+                      <textarea class="form-control" id="projectDescriptionInput" rows="3" placeholder="Кратко о цели, составе и окружении проекта"></textarea>
+                    </div>
+                    <div class="d-flex gap-2">
+                      <button type="submit" class="btn btn-primary flex-grow-1" id="projectSubmitBtn">Сохранить</button>
+                      <button type="button" class="btn btn-outline-secondary" id="resetProjectFormBtn">Отменить</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div id="requirementsView" class="view d-none">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
               <h5 class="mb-0">Требования</h5>
-              <p class="text-muted small mb-0">Список требований с пагинацией</p>
+              <p class="text-muted small mb-0">Список требований и их статусов</p>
             </div>
             <div class="d-flex gap-2">
+              <button class="btn btn-primary btn-sm" id="addRequirementBtn">Добавить</button>
               <button class="btn btn-outline-primary btn-sm" id="refreshRequirementsBtn">Обновить</button>
             </div>
           </div>
@@ -153,12 +224,12 @@
 
           <div id="requirementDetail" class="card shadow-sm d-none">
             <div class="card-header">
-              <h6 class="mb-0" id="requirementDetailTitle">Детали требования</h6>
+              <h6 class="mb-0" id="requirementDetailTitle">Карточка требования</h6>
             </div>
             <div class="card-body">
               <ul class="nav nav-tabs mb-3" role="tablist">
                 <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#req-main"
-                                             type="button" role="tab">Данные требования</button></li>
+                                             type="button" role="tab">Основные данные</button></li>
                 <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#req-trace"
                                              type="button" role="tab">Трассировка</button></li>
               </ul>
@@ -194,7 +265,7 @@
                       <p class="form-control-plaintext" id="reqSource"></p>
                     </div>
                     <div class="col-md-3 mb-3">
-                      <label class="form-label">Ответственный</label>
+                      <label class="form-label">Владелец</label>
                       <p class="form-control-plaintext" id="reqOwner"></p>
                     </div>
                     <div class="col-md-3 mb-3">
@@ -206,7 +277,7 @@
                 <div class="tab-pane fade" id="req-trace" role="tabpanel">
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <h6 class="mb-0">Связанные требования</h6>
-                    <button class="btn btn-primary btn-sm" id="addTraceBtn">Добавить ссылку на требование</button>
+                    <button class="btn btn-primary btn-sm" id="addTraceBtn">Добавить ссылку на связанное требование</button>
                   </div>
                   <div class="table-responsive">
                     <table class="table align-middle">
@@ -229,11 +300,48 @@
         </div>
 
         <div id="articlesView" class="view d-none">
-          <div class="text-muted">Статьи появятся в следующей итерации.</div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h5 class="mb-0">Статьи</h5>
+              <p class="text-muted small mb-0">Храните форматированные заметки, инструкции и описания.</p>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-primary btn-sm" id="addArticleBtn">Добавить</button>
+              <button class="btn btn-outline-primary btn-sm" id="refreshArticlesBtn">Обновить</button>
+            </div>
+          </div>
+          <div class="card shadow-sm mb-3">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table align-middle">
+                  <thead>
+                  <tr>
+                    <th>Заголовок</th>
+                    <th>Проект</th>
+                    <th>Обновлено</th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody id="articlesTableBody">
+                  <tr><td colspan="4" class="text-center text-muted">Загрузка...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div id="articleDetail" class="card shadow-sm d-none">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h6 class="mb-0" id="articleTitle"></h6>
+              <div class="text-muted small" id="articleUpdated"></div>
+            </div>
+            <div class="card-body">
+              <div id="articleContent" class="article-content"></div>
+            </div>
+          </div>
         </div>
 
         <div id="modelsView" class="view d-none">
-          <div class="text-muted">Модели появятся в следующей итерации.</div>
+          <div class="text-muted">Модели появятся, когда их опишем и загрузим.</div>
         </div>
       </main>
     </div>
@@ -247,7 +355,7 @@
       <div>
         <label class="form-label">Имя пользователя</label>
         <input type="text" class="form-control" id="usernameInput" placeholder="например, demo" required>
-        <div class="form-text">Создастся, если ещё нет (демо, без пароля).</div>
+        <div class="form-text">Можно любое значение, если сервер это позволяет.</div>
       </div>
       <div>
         <label class="form-label">Отображаемое имя (опционально)</label>
@@ -255,10 +363,55 @@
       </div>
       <div class="border-top pt-2">
         <label class="form-label">Или вставьте готовый JWT</label>
-        <input type="password" class="form-control" id="tokenInput" placeholder="Bearer токен">
+        <input type="password" class="form-control" id="tokenInput" placeholder="Bearer ...">
       </div>
       <button type="submit" class="btn btn-primary w-100">Войти</button>
     </form>
+  </div>
+</div>
+
+<!-- User Story modal -->
+<div class="modal fade" id="userStoryModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="userStoryModalTitle">Новая User story</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="userStoryForm">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Формулировка*</label>
+            <textarea class="form-control" id="usStatementInput" rows="3" required placeholder="Как &lt;роль&gt; я хочу ..."></textarea>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Автор*</label>
+              <input type="text" class="form-control" id="usOwnerInput" required placeholder="Product Owner">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Приоритет*</label>
+              <select class="form-select" id="usPriorityInput" required>
+                <option value="">Выберите...</option>
+                <option value="LOW">LOW</option>
+                <option value="MEDIUM">MEDIUM</option>
+                <option value="HIGH">HIGH</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Проект</label>
+            <select class="form-select" id="usProjectInput">
+              <option value="">Без проекта</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" id="userStoryCancelBtn">Отменить</button>
+          <button type="submit" class="btn btn-primary" id="userStorySubmitBtn">Сохранить</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 
@@ -278,7 +431,7 @@
         <div class="row">
           <div class="col-md-6 mb-2"><strong>Источник:</strong> <span id="modalReqSource"></span></div>
           <div class="col-md-3 mb-2"><strong>Версия:</strong> <span id="modalReqVersion" class="badge bg-secondary"></span></div>
-          <div class="col-md-3 mb-2"><strong>Ответственный:</strong> <span id="modalReqOwner"></span></div>
+          <div class="col-md-3 mb-2"><strong>Владелец:</strong> <span id="modalReqOwner"></span></div>
         </div>
       </div>
       <div class="modal-footer">
@@ -293,7 +446,7 @@
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h6 class="modal-title">Добавить ссылку на требование</h6>
+        <h6 class="modal-title">Добавить ссылку на связанное требование</h6>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -316,6 +469,112 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Requirement form modal -->
+<div class="modal fade" id="requirementFormModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="requirementFormTitle">Новое требование</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="requirementForm">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Название*</label>
+            <input type="text" class="form-control" id="reqTitleInput" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Описание*</label>
+            <textarea class="form-control" id="reqDescriptionInput" rows="3" required></textarea>
+          </div>
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label class="form-label">Тип*</label>
+              <select class="form-select" id="reqTypeInput" required>
+                <option value="FUNCTIONAL">FUNCTIONAL</option>
+                <option value="NON_FUNCTIONAL">NON_FUNCTIONAL</option>
+                <option value="USER">USER</option>
+              </select>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label">Статус*</label>
+              <select class="form-select" id="reqStatusInput" required>
+                <option value="DRAFT">DRAFT</option>
+                <option value="IN_REVIEW">IN_REVIEW</option>
+                <option value="APPROVED">APPROVED</option>
+                <option value="REJECTED">REJECTED</option>
+                <option value="IMPLEMENTED">IMPLEMENTED</option>
+              </select>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label">Версия*</label>
+              <input type="number" min="1" class="form-control" id="reqVersionInput" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Источник</label>
+              <input type="text" class="form-control" id="reqSourceInput" placeholder="RFC, документ, ссылка">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Проект</label>
+              <select class="form-select" id="reqProjectInput">
+                <option value="">Без проекта</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" id="reqCancelBtn">Отменить</button>
+          <button type="submit" class="btn btn-primary" id="reqSubmitBtn">Сохранить</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Article modal -->
+<div class="modal fade" id="articleModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="articleModalTitle">Новая статья</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="articleForm">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Заголовок*</label>
+            <input type="text" class="form-control" id="articleTitleInput" required placeholder="Гайд по аналитике">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Проект</label>
+            <select class="form-select" id="articleProjectInput">
+              <option value="">Без проекта</option>
+            </select>
+          </div>
+          <div class="mb-2 d-flex flex-wrap gap-2 align-items-center">
+            <span class="text-muted small">Форматирование:</span>
+            <div class="btn-group btn-group-sm" role="group">
+              <button type="button" class="btn btn-outline-secondary js-editor-btn" data-cmd="bold">B</button>
+              <button type="button" class="btn btn-outline-secondary js-editor-btn" data-cmd="italic"><em>I</em></button>
+              <button type="button" class="btn btn-outline-secondary js-editor-btn" data-cmd="underline"><u>U</u></button>
+            </div>
+            <button type="button" class="btn btn-outline-secondary btn-sm" id="insertCodeBtn">Код</button>
+          </div>
+          <div class="border rounded p-2 bg-light">
+            <div id="articleEditor" class="wysiwyg" contenteditable="true" style="min-height: 260px;"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" id="articleCancelBtn">Отменить</button>
+          <button type="submit" class="btn btn-primary" id="articleSubmitBtn">Сохранить</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

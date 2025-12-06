@@ -11,6 +11,19 @@ body.bg-body {
   min-height: 100vh;
 }
 
+.wysiwyg {
+  outline: none;
+  white-space: pre-wrap;
+}
+
+.article-content pre {
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
 .topbar {
   background: linear-gradient(90deg, var(--blue-900) 0%, var(--blue-700) 100%);
 }
